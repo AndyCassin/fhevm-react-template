@@ -1,170 +1,356 @@
-# FHEVM React Template
+# Confidential Patent License Platform
 
-A minimal React frontend template for building FHEVM-enabled decentralized applications (dApps). This template provides a simple development interface for interacting with FHEVM smart contracts, specifically the `FHECounter.sol` contract.
+A decentralized patent licensing platform built with Fully Homomorphic Encryption (FHE) using Zama's fhEVM on Ethereum Sepolia. This platform enables confidential patent registration, licensing agreements, royalty payments, and encrypted bidding processes.
 
-## 🚀 What is FHEVM?
 
-FHEVM (Fully Homomorphic Encryption Virtual Machine) enables computation on encrypted data directly on Ethereum. This template demonstrates how to build dApps that can perform computations while keeping data private.
+**Watch the Demo**: [View demonstration demo.mp4]
 
-## ✨ Features
+## 🚀 Live Application
 
-- **🔐 FHEVM Integration**: Built-in support for fully homomorphic encryption
-- **⚛️ React + Next.js**: Modern, performant frontend framework
-- **🎨 Tailwind CSS**: Utility-first styling for rapid UI development
-- **🔗 RainbowKit**: Seamless wallet connection and management
-- **🌐 Multi-Network Support**: Works on both Sepolia testnet and local Hardhat node
-- **📦 Monorepo Structure**: Organized packages for SDK, contracts, and frontend
+Access the platform at: **[https://fhe-patent-license.vercel.app/](https://fhe-patent-license.vercel.app/)**
 
-## 📋 Prerequinextjss
+## Features
 
-Before you begin, ensure you have:
+- **Confidential Patent Registration**: Register patents with encrypted royalty rates, minimum fees, and exclusivity periods
+- **License Management**: Request, approve, and manage patent licenses with encrypted terms
+- **Confidential Bidding**: Submit sealed bids for exclusive patent licenses
+- **Royalty Tracking**: Report revenue and pay royalties with privacy-preserving encryption
+- **Multi-Territory Support**: Define geographic territories for patent and license coverage
+- **Automated Status Management**: Track patent and license lifecycles with automated state transitions
 
-- **Node.js** (v18 or higher)
-- **pnpm** package manager
-- **MetaMask** browser extension
-- **Git** for cloning the repository
+## Technology Stack
 
-## 🛠️ Quick Start
+- **Smart Contracts**: Solidity ^0.8.24
+- **Development Framework**: Hardhat
+- **FHE Library**: Zama fhEVM (@fhevm/solidity)
+- **Network**: Ethereum Sepolia Testnet
+- **Testing**: Hardhat with Chai assertions
+- **Verification**: Etherscan
 
-### 1. Clone and Setup
+## Prerequisites
 
+- Node.js >= 18.0.0
+- npm or yarn
+- MetaMask or similar Web3 wallet
+- Sepolia testnet ETH ([Get from faucet](https://sepoliafaucet.com/))
+
+## Installation
+
+1. Clone the repository:
 ```bash
-# Clone the repository
 git clone <repository-url>
-cd fhevm-react-template
-
-# Initialize submodules (includes fhevm-hardhat-template)
-git submodule update --init --recursive
-
-# Install dependencies
-pnpm install
+cd confidential-patent-license-platform
 ```
 
-### 2. Environment Configuration
+2. Install dependencies:
+```bash
+npm install
+```
 
-Set up your Hardhat environment variables by following the [FHEVM documentation](https://docs.zama.ai/protocol/solidity-guides/getting-started/setup#set-up-the-hardhat-configuration-variables-optional):
+3. Configure environment variables:
+```bash
+cp .env.example .env
+```
 
-- `MNEMONIC`: Your wallet mnemonic phrase
-- `INFURA_API_KEY`: Your Infura API key for Sepolia
+Edit `.env` and add your credentials:
+```
+SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
+PRIVATE_KEY=your_wallet_private_key
+ETHERSCAN_API_KEY=your_etherscan_api_key
+```
 
-### 3. Start Development Environment
+## Project Structure
 
-**Option A: Local Development (Recommended for testing)**
+```
+confidential-patent-license-platform/
+├── contracts/
+│   └── ConfidentialPatentLicense.sol    # Main smart contract
+├── scripts/
+│   ├── deploy.js                        # Deployment script
+│   ├── verify.js                        # Contract verification script
+│   ├── interact.js                      # Interaction utilities
+│   └── simulate.js                      # Full workflow simulation
+├── test/
+│   └── ConfidentialPatentLicense.test.js # Comprehensive test suite
+├── hardhat.config.js                    # Hardhat configuration
+├── package.json                         # Project dependencies
+├── .env.example                         # Environment template
+├── README.md                            # This file
+└── DEPLOYMENT.md                        # Deployment guide
+```
+
+## Usage
+
+### Compile Contracts
 
 ```bash
-# Terminal 1: Start local Hardhat node
-pnpm chain
-# RPC URL: http://127.0.0.1:8545 | Chain ID: 31337
-
-# Terminal 2: Deploy contracts to localhost
-pnpm deploy:localhost
-
-# Terminal 3: Start the frontend
-pnpm start
+npm run compile
 ```
 
-**Option B: Sepolia Testnet**
+### Run Tests
 
 ```bash
-# Deploy to Sepolia testnet
-pnpm deploy:sepolia
+# Run all tests
+npm test
 
-# Start the frontend
-pnpm start
+# Run with gas reporting
+REPORT_GAS=true npm test
+
+# Run with coverage
+npm run test:coverage
 ```
 
-### 4. Connect MetaMask
+### Deploy to Network
 
-1. Open [http://localhost:3000](http://localhost:3000) in your browser
-2. Click "Connect Wallet" and select MetaMask
-3. If using localhost, add the Hardhat network to MetaMask:
-   - **Network Name**: Hardhat Local
-   - **RPC URL**: `http://127.0.0.1:8545`
-   - **Chain ID**: `31337`
-   - **Currency Symbol**: `ETH`
+```bash
+# Deploy to Sepolia
+npm run deploy
 
-### ⚠️ Sepolia Production note
-
-- In production, `NEXT_PUBLIC_ALCHEMY_API_KEY` must be set (see `packages/nextjs/scaffold.config.ts`). The app throws if missing.
-- Ensure `packages/nextjs/contracts/deployedContracts.ts` points to your live contract addresses.
-- Optional: set `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` for better WalletConnect reliability.
-- Optional: add per-chain RPCs via `rpcOverrides` in `packages/nextjs/scaffold.config.ts`.
-
-## 🔧 Troubleshooting
-
-### Common MetaMask + Hardhat Issues
-
-When developing with MetaMask and Hardhat, you may encounter these common issues:
-
-#### ❌ Nonce Mismatch Error
-
-**Problem**: MetaMask tracks transaction nonces, but when you restart Hardhat, the node resets while MetaMask doesn't update its tracking.
-
-**Solution**:
-1. Open MetaMask extension
-2. Select the Hardhat network
-3. Go to **Settings** → **Advanced**
-4. Click **"Clear Activity Tab"** (red button)
-5. This resets MetaMask's nonce tracking
-
-#### ❌ Cached View Function Results
-
-**Problem**: MetaMask caches smart contract view function results. After restarting Hardhat, you may see outdated data.
-
-**Solution**:
-1. **Restart your entire browser** (not just refresh the page)
-2. MetaMask's cache is stored in extension memory and requires a full browser restart to clear
-
-> 💡 **Pro Tip**: Always restart your browser after restarting Hardhat to avoid cache issues.
-
-For more details, see the [MetaMask development guide](https://docs.metamask.io/wallet/how-to/run-devnet/).
-
-## 📁 Project Structure
-
-This template uses a monorepo structure with three main packages:
-
-```
-fhevm-react-template/
-├── packages/
-│   ├── fhevm-hardhat-template/    # Smart contracts & deployment
-│   ├── fhevm-sdk/                 # FHEVM SDK package
-│   └── nextjs/                      # React frontend application
-└── scripts/                       # Build and deployment scripts
+# Deploy to local network
+npm run deploy:local
 ```
 
-### Key Components
+### Verify Contract
 
-#### 🔗 FHEVM Integration (`packages/nextjs/hooks/fhecounter-example/`)
-- **`useFHECounterWagmi.tsx`**: Example hook demonstrating FHEVM contract interaction
-- Essential hooks for FHEVM-enabled smart contract communication
-- Easily copyable to any FHEVM + React project
+After deployment, verify the contract on Etherscan:
 
-#### 🎣 Wallet Management (`packages/nextjs/hooks/helper/`)
-- MetaMask wallet provider hooks
-- Compatible with EIP-6963 standard
-- Easily adaptable for other wallet providers
+```bash
+npm run verify
+```
 
-#### 🔧 Flexibility
-- Replace `ethers.js` with `Wagmi` or other React-friendly libraries
-- Modular architecture for easy customization
-- Support for multiple wallet providers
+### Interact with Contract
 
-## 📚 Additional Resources
+Use the interactive script to perform actions:
 
-### Official Documentation
-- [FHEVM Documentation](https://docs.zama.ai/protocol/solidity-guides/) - Complete FHEVM guide
-- [FHEVM Hardhat Guide](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat) - Hardhat integration
-- [Relayer SDK Documentation](https://docs.zama.ai/protocol/relayer-sdk-guides/) - SDK reference
-- [Environment Setup](https://docs.zama.ai/protocol/solidity-guides/getting-started/setup#set-up-the-hardhat-configuration-variables-optional) - MNEMONIC & API keys
+```bash
+npm run interact
+```
 
-### Development Tools
-- [MetaMask + Hardhat Setup](https://docs.metamask.io/wallet/how-to/run-devnet/) - Local development
-- [React Documentation](https://reactjs.org/) - React framework guide
+Available interactions:
+- Register patents
+- Request licenses
+- Approve license requests
+- Submit confidential bids
+- Pay royalties
+- Query contract state
 
-### Community & Support
-- [FHEVM Discord](https://discord.com/invite/zama) - Community support
-- [GitHub Issues](https://github.com/zama-ai/fhevm-react-template/issues) - Bug reports & feature requests
+### Run Full Simulation
 
-## 📄 License
+Execute a complete workflow simulation:
 
-This project is licensed under the **BSD-3-Clause-Clear License**. See the [LICENSE](LICENSE) file for details.
+```bash
+npm run simulate
+```
+
+This will:
+1. Register multiple patents
+2. Request licenses from different accounts
+3. Approve license agreements
+4. Simulate confidential bidding
+5. Process royalty payments
+6. Generate a detailed report
+
+## Smart Contract Overview
+
+### Main Functions
+
+#### Patent Management
+
+- `registerPatent()`: Register a new patent with encrypted terms
+- `updatePatentStatus()`: Update patent status (Active, Suspended, Expired)
+- `getPatentInfo()`: Retrieve public patent information
+- `getUserPatents()`: Get all patents owned by an address
+
+#### License Management
+
+- `requestLicense()`: Submit a license request with proposed terms
+- `approveLicense()`: Approve a pending license request
+- `updateLicenseStatus()`: Update license status
+- `getUserLicenses()`: Get all licenses for an address
+- `getPatentLicenses()`: Get all licenses for a patent
+
+#### Confidential Bidding
+
+- `startConfidentialBidding()`: Initiate sealed bid auction
+- `submitConfidentialBid()`: Submit encrypted bid amount
+- `finalizeBidding()`: Close bidding and award exclusive license
+
+#### Royalty Payments
+
+- `payRoyalties()`: Submit royalty payment with encrypted revenue report
+- `requestRoyaltyVerification()`: Initiate verification process
+- `getRoyaltyPaymentCount()`: Get number of payments for a license
+
+### Events
+
+- `PatentRegistered`: Emitted when a new patent is registered
+- `LicenseRequested`: Emitted when a license is requested
+- `LicenseApproved`: Emitted when a license is approved
+- `RoyaltyPaid`: Emitted when royalties are paid
+- `ConfidentialBidSubmitted`: Emitted when a bid is submitted
+- `ExclusiveLicenseAwarded`: Emitted when bidding concludes
+- `PatentStatusChanged`: Emitted when patent status updates
+- `LicenseStatusChanged`: Emitted when license status updates
+
+## Security Features
+
+### Fully Homomorphic Encryption
+
+All sensitive financial terms are encrypted using Zama's FHE:
+
+- Royalty rates
+- License fees
+- Revenue reports
+- Bid amounts
+- Revenue caps
+- Territory restrictions
+
+### Access Control
+
+- Only patent owners can approve licenses
+- Only licensees can pay royalties
+- Only contract owner can execute emergency functions
+- FHE permissions restrict data visibility
+
+### Validation
+
+- Royalty rates capped at 100%
+- Patent validity limited to 20 years
+- Bidding duration limited to 1 week
+- Territory codes validated
+
+## Gas Optimization
+
+- Struct packing for storage efficiency
+- Minimal external calls
+- Efficient event emissions
+- Optimized compiler settings (200 runs)
+
+## Testing
+
+The test suite covers:
+
+- Contract deployment and initialization
+- Patent registration and validation
+- License request and approval workflow
+- Confidential bidding process
+- Royalty payment processing
+- Status management
+- Emergency functions
+- Access control
+- Error handling
+
+Run tests with:
+```bash
+npm test
+```
+
+## Deployment Information
+
+After deployment, find details in `deployments/sepolia-deployment.json`:
+
+```json
+{
+  "network": "sepolia",
+  "chainId": "11155111",
+  "contractAddress": "0x...",
+  "deployer": "0x...",
+  "deploymentTime": "2025-01-...",
+  "transactionHash": "0x...",
+  "verified": true
+}
+```
+
+## Etherscan Links
+
+After deployment and verification, view your contract on Sepolia Etherscan:
+
+- Contract: `https://sepolia.etherscan.io/address/CONTRACT_ADDRESS`
+- Transactions: View all contract interactions
+- Code: Verified source code and ABI
+- Events: Real-time event monitoring
+
+## Development Workflow
+
+1. **Local Development**
+   ```bash
+   npx hardhat node          # Start local node
+   npm run deploy:local      # Deploy locally
+   npm test                  # Run tests
+   ```
+
+2. **Testnet Deployment**
+   ```bash
+   npm run deploy            # Deploy to Sepolia
+   npm run verify            # Verify on Etherscan
+   npm run interact          # Interact with contract
+   ```
+
+3. **Simulation**
+   ```bash
+   npm run simulate          # Run full workflow
+   ```
+
+## Troubleshooting
+
+### Common Issues
+
+**"Insufficient funds"**
+- Ensure your wallet has Sepolia ETH
+- Get testnet ETH from [Sepolia Faucet](https://sepoliafaucet.com/)
+
+**"Invalid API key"**
+- Verify your `.env` file has correct API keys
+- Check Alchemy/Infura and Etherscan keys
+
+**"Contract verification failed"**
+- Ensure contract is deployed first
+- Wait a few seconds after deployment
+- Check Etherscan API key is valid
+
+**"FHE library errors"**
+- Ensure @fhevm/solidity is properly installed
+- Check compiler version matches (0.8.24)
+
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. Fork the repository
+2. Create a feature branch
+3. Write tests for new features
+4. Ensure all tests pass
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Resources
+
+- [Zama Documentation](https://docs.zama.ai/)
+- [fhEVM Documentation](https://docs.zama.ai/fhevm)
+- [Hardhat Documentation](https://hardhat.org/docs)
+- [Ethereum Sepolia](https://sepolia.dev/)
+- [Etherscan API](https://docs.etherscan.io/)
+
+## Support
+
+For issues and questions:
+- Open an issue on GitHub
+- Check existing documentation
+- Review test scripts for examples
+
+## Roadmap
+
+- Multi-signature approval for high-value licenses
+- Dispute resolution mechanism
+- Automated royalty calculation
+- License transfer functionality
+- Patent portfolio management
+- Advanced analytics dashboard
+- Cross-chain deployment
+
+---
+
+Built with Zama FHE and Hardhat
