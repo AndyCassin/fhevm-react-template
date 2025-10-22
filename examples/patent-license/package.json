@@ -22,7 +22,7 @@
   "author": "FHEVM Contributors",
   "license": "MIT",
   "dependencies": {
-    "@fhevm/sdk": "workspace:*",
+    "@fhevm/sdk": "file:../../packages/fhevm-sdk",
     "ethers": "^6.9.0"
   },
   "devDependencies": {
