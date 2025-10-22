@@ -1,6 +1,15 @@
-export * from "./core/index";
-export * from "./storage/index";
-export * from "./fhevmTypes";
-export * from "./FhevmDecryptionSignature";
-export * from "./react/index";
+// Core exports
+export { createFhevmInstance, FhevmClientImpl } from './client';
+export { encryptInput, EncryptionHelper } from './encryption';
+export { userDecrypt, publicDecrypt } from './decrypt';
 
+// Type exports
+export type {
+  EthersProvider,
+  EncryptionType,
+  EncryptedValue,
+  FhevmConfig,
+  FhevmClient,
+  DecryptOptions,
+  PublicDecryptOptions,
+} from './types';
