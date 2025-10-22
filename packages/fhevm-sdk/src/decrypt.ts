@@ -14,10 +14,13 @@ export async function userDecrypt(options: DecryptOptions): Promise<bigint> {
   // 3. Retrieve the decrypted value
 
   // Placeholder implementation
+  const provider = signer.provider;
+  const network = provider ? await provider.getNetwork() : { chainId: 31337n };
+
   const domain = {
     name: 'FHEVM',
     version: '1',
-    chainId: await signer.getChainId(),
+    chainId: Number(network.chainId),
     verifyingContract: contractAddress,
   };
 

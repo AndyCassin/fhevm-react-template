@@ -37,7 +37,7 @@ export function useFhevmClient(options: UseFhevmClientOptions = {}): UseFhevmCli
         setError(null);
 
         const fhevmClient = await createFhevmInstance({
-          provider,
+          provider: provider!,
           chainId,
           gatewayUrl,
           aclAddress,

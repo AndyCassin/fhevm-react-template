@@ -1,5 +1,6 @@
 import { Contract } from 'ethers';
-import { createInstance, type FhevmInstance } from 'fhevmjs';
+import { createInstance } from 'fhevmjs';
+import type { FhevmInstance } from 'fhevmjs';
 import type { FhevmConfig, FhevmClient, EthersProvider } from './types';
 
 export class FhevmClientImpl implements FhevmClient {

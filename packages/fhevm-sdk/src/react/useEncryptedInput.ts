@@ -4,7 +4,7 @@ import { encryptInput } from '../encryption';
 import type { EncryptionType, EncryptedValue } from '../types';
 
 export interface UseEncryptedInputResult {
-  encrypt: (value: number | boolean | string, type: EncryptionType) => Promise<EncryptedValue>;
+  encrypt: (value: number | boolean | string | bigint, type: EncryptionType) => Promise<EncryptedValue>;
   isEncrypting: boolean;
   error: Error | null;
 }
@@ -15,7 +15,7 @@ export function useEncryptedInput(): UseEncryptedInputResult {
   const [error, setError] = useState<Error | null>(null);
 
   const encrypt = useCallback(
-    async (value: number | boolean | string, type: EncryptionType): Promise<EncryptedValue> => {
+    async (value: number | boolean | string | bigint, type: EncryptionType): Promise<EncryptedValue> => {
       if (!isReady || !client) {
         throw new Error('FHEVM client not ready');
       }
