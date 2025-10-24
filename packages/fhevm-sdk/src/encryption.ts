@@ -3,7 +3,7 @@ import type { EncryptionType, EncryptedValue } from './types';
 
 export async function encryptInput(
   instance: FhevmInstance,
-  value: number | boolean | string,
+  value: number | boolean | string | bigint,
   type: EncryptionType
 ): Promise<EncryptedValue> {
   let encryptedData: Uint8Array;
@@ -11,28 +11,28 @@ export async function encryptInput(
 
   switch (type) {
     case 'bool':
-      encryptedData = await instance.encrypt_bool(Boolean(value));
+      encryptedData = await (instance as any).encrypt_bool(Boolean(value));
       break;
     case 'uint8':
-      encryptedData = await instance.encrypt_uint8(Number(value));
+      encryptedData = await (instance as any).encrypt_uint8(Number(value));
       break;
     case 'uint16':
-      encryptedData = await instance.encrypt_uint16(Number(value));
+      encryptedData = await (instance as any).encrypt_uint16(Number(value));
       break;
     case 'uint32':
-      encryptedData = await instance.encrypt_uint32(Number(value));
+      encryptedData = await (instance as any).encrypt_uint32(Number(value));
       break;
     case 'uint64':
-      encryptedData = await instance.encrypt_uint64(BigInt(value));
+      encryptedData = await (instance as any).encrypt_uint64(BigInt(value));
       break;
     case 'uint128':
-      encryptedData = await instance.encrypt_uint128(BigInt(value));
+      encryptedData = await (instance as any).encrypt_uint128(BigInt(value));
       break;
     case 'uint256':
-      encryptedData = await instance.encrypt_uint256(BigInt(value));
+      encryptedData = await (instance as any).encrypt_uint256(BigInt(value));
       break;
     case 'address':
-      encryptedData = await instance.encrypt_address(String(value));
+      encryptedData = await (instance as any).encrypt_address(String(value));
       break;
     default:
       throw new Error(`Unsupported encryption type: ${type}`);
@@ -47,7 +47,7 @@ export async function encryptInput(
 export class EncryptionHelper {
   constructor(private instance: FhevmInstance) {}
 
-  async encrypt(value: number | boolean | string, type: EncryptionType): Promise<EncryptedValue> {
+  async encrypt(value: number | boolean | string | bigint, type: EncryptionType): Promise<EncryptedValue> {
     return encryptInput(this.instance, value, type);
   }
 
