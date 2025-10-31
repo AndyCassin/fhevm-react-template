@@ -72,9 +72,22 @@ fhevm-react-template/
 │       ├── package.json
 │       └── README.md
 ├── examples/
-│   ├── nextjs-example/      # Next.js 14 App Router example
+│   ├── nextjs-example/      # Next.js 14 App Router example with full SDK integration
+│   │   ├── app/            # Next.js App Router
+│   │   │   ├── api/        # API routes for FHE operations
+│   │   │   ├── layout.tsx  # Root layout with providers
+│   │   │   └── page.tsx    # Home page with demos
+│   │   ├── components/     # React components
+│   │   │   ├── ui/         # UI components (Button, Input, Card)
+│   │   │   ├── fhe/        # FHE demos (Encryption, Computation, KeyManager)
+│   │   │   └── examples/   # Use cases (Banking, Medical)
+│   │   ├── hooks/          # Custom FHE hooks
+│   │   ├── lib/            # Utilities (client, server, keys, validation, security)
+│   │   └── types/          # TypeScript type definitions
 │   ├── patent-license/      # Confidential patent licensing dApp
 │   └── node-vanilla/        # Pure Node.js example
+├── templates/               # Template directory (symlinks to examples)
+│   └── nextjs/             # Next.js template
 ├── package.json             # Root package.json with workspace config
 └── README.md               # This file
 ```
@@ -269,16 +282,21 @@ await decrypt('0x...', handleValue);
 
 ### 1. Next.js Example
 
-A modern Next.js 14 application demonstrating the SDK integration with App Router.
+A comprehensive Next.js 14 application with complete SDK integration, API routes, and real-world examples.
 
 **Location:** `examples/nextjs-example/`
 
 **Features:**
-- Server and client component patterns
-- React hooks integration
+- Server and client component patterns with App Router
+- Complete API routes for FHE operations (encrypt, decrypt, compute, keys)
+- Advanced React hooks (useFHE, useEncryption, useComputation)
+- Interactive demos (EncryptionDemo, ComputationDemo, KeyManager)
+- Real-world use cases (Banking, Medical Records)
+- Full component library (Button, Input, Card)
+- TypeScript type definitions for all FHE operations
+- Security utilities and input validation
 - Wallet connection with MetaMask
-- Encrypted form submissions
-- Real-time decryption
+- Encrypted form submissions with homomorphic computation
 
 ### 2. Confidential Patent License Platform
 
