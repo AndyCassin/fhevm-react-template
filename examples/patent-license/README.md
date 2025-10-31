@@ -1,346 +1,186 @@
 # Confidential Patent License Platform
 
-A complete decentralized application for managing patent licenses with fully confidential terms using Fully Homomorphic Encryption (FHE).
+> A privacy-preserving patent licensing marketplace powered by Fully Homomorphic Encryption (FHE)
 
-## Overview
+## 🔐 Overview
 
-This example demonstrates a production-ready dApp that leverages the FHEVM SDK to build a confidential patent licensing platform. Key features include:
+The Confidential Patent License Platform revolutionizes intellectual property licensing by enabling secure, private transactions on the blockchain. Using advanced FHE technology, patent holders can license their innovations while keeping sensitive business terms completely confidential.
 
-- **Confidential Patent Registration** - Register patents with encrypted royalty rates and licensing fees
-- **Private License Negotiations** - Request licenses without revealing proposed terms
-- **Encrypted Bidding System** - Conduct confidential auctions for exclusive licenses
-- **Confidential Revenue Reporting** - Pay royalties with encrypted revenue data
-- **Full FHE Workflow** - Complete encryption/decryption cycle demonstration
+## 🌟 Core Concepts
 
-## Features
+### Fully Homomorphic Encryption (FHE)
 
-### For Patent Owners
+FHE enables computation on encrypted data without decryption, ensuring complete privacy throughout the entire licensing process. Key benefits include:
 
-- Register patents with confidential licensing terms
-- Start confidential bidding for exclusive licenses
-- Approve or reject license requests
-- Verify royalty payments with encrypted revenue data
-- Update patent status (Active/Suspended/Expired)
+- **Private Royalty Rates**: Negotiate licensing fees without revealing exact percentages
+- **Confidential Revenue Reporting**: Submit revenue data while maintaining business privacy
+- **Encrypted Bidding**: Competitive bidding without exposing bid amounts to competitors
+- **Secure Terms**: All licensing terms remain encrypted on-chain
+
+### Privacy-Preserving Patent Marketplace
+
+Our platform creates a confidential marketplace where:
+
+1. **Patent Registration**: Register patents with encrypted licensing terms
+2. **License Requests**: Request licenses with private fee proposals
+3. **Confidential Auctions**: Participate in sealed-bid auctions for exclusive licenses
+4. **Royalty Management**: Pay and verify royalties while keeping revenue data private
+5. **Territory Control**: Manage geographic licensing rights with encrypted territory codes
+
+## 🎯 Key Features
+
+### For Patent Holders
+
+- **Confidential Registration**: Register patents with encrypted minimum fees and royalty rates
+- **Private Bidding System**: Launch confidential auctions for exclusive licensing rights
+- **Automated Royalty Tracking**: Monitor payments with encrypted revenue verification
+- **Flexible Licensing Terms**: Set exclusivity periods, territory restrictions, and auto-renewal options
 
 ### For Licensees
 
-- Request licenses with private proposed terms
-- Submit confidential bids for exclusive rights
-- Pay royalties with encrypted revenue reporting
-- Manage active licenses
+- **Private Proposals**: Submit license requests without exposing business strategies
+- **Sealed-Bid Auctions**: Compete for exclusive licenses with confidential bids
+- **Confidential Reporting**: Report revenue and pay royalties privately
+- **Multi-Territory Support**: Request licenses for specific geographic regions
 
-## Technology Stack
+### Advanced Capabilities
 
-- **Smart Contracts**: Solidity with FHEVM encryption
-- **Frontend**: Vanilla JavaScript with FHEVM SDK
-- **Blockchain**: Ethereum Sepolia Testnet
-- **Encryption**: Zama FHEVM (Fully Homomorphic Encryption)
-- **Development**: Hardhat
+- **Encrypted Revenue Caps**: Set maximum revenue thresholds privately
+- **Confidential Verification**: Verify royalty payments using FHE computations
+- **Status Management**: Active, suspended, or expired patent tracking
+- **Auto-Renewal Options**: Automated license renewals with encrypted terms
 
-## Getting Started
+## 🏗️ Technical Architecture
 
-### Prerequisites
+### Smart Contract Features
 
-- Node.js 18+ or 20+
-- MetaMask browser extension
-- Sepolia testnet ETH
-- Hardhat environment
+The platform utilizes FHE-enabled smart contracts on the Sepolia testnet:
 
-### Installation
+- **Contract Address**: `0x6Cabd68b533F593D268344cB1281E50699001E0E`
+- **Network**: Sepolia Testnet
+- **FHE Library**: Zama's fhevm SDK
+- **Encryption Types**: euint64, euint32, euint8 for different data types
 
-From the root directory:
-
-```bash
-npm install
-```
-
-Or from this directory:
-
-```bash
-cd examples/patent-license
-npm install
-```
-
-### Environment Setup
-
-Create a `.env` file:
-
-```env
-SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
-PRIVATE_KEY=your_private_key_here
-ETHERSCAN_API_KEY=your_etherscan_api_key
-```
-
-### Compile Contracts
-
-```bash
-npm run compile
-```
-
-### Run Tests
-
-```bash
-npm test
-```
-
-### Deploy
-
-```bash
-npm run deploy
-```
-
-After deployment, update the `CONTRACT_ADDRESS` in `index.html` with your deployed contract address.
-
-### Run Frontend
-
-```bash
-npm start
-```
-
-Open [http://localhost:3001](http://localhost:3001) in your browser.
-
-## Project Structure
-
-```
-patent-license/
-├── contracts/
-│   └── ConfidentialPatentLicense.sol   # Main smart contract
-├── scripts/
-│   ├── deploy.js                        # Deployment script
-│   └── verify.js                        # Contract verification
-├── test/
-│   └── ConfidentialPatentLicense.test.js
-├── index.html                           # Frontend application
-├── hardhat.config.js
-├── package.json
-└── README.md
-```
-
-## Smart Contract
-
-### Key Functions
-
-#### Patent Registration
+### Encrypted Data Types
 
 ```solidity
-function registerPatent(
-    uint64 royaltyRate,
-    uint64 minLicenseFee,
-    uint32 exclusivityPeriod,
-    uint256 validityYears,
-    string calldata patentHash,
-    uint8 territoryCode,
-    bool isConfidential
-) external returns (uint256 patentId)
+euint64: Royalty rates, license fees, revenue amounts
+euint32: Exclusivity periods, revenue caps
+euint8: Territory masks and permission flags
 ```
 
-#### License Request
+## 📺 Demo
 
-```solidity
-function requestLicense(
-    uint256 patentId,
-    uint64 proposedFee,
-    uint64 proposedRoyaltyRate,
-    uint32 revenueCap,
-    uint256 durationDays,
-    bool requestExclusive,
-    bool autoRenewal,
-    uint8 territoryMask
-) external returns (uint256 licenseId)
-```
+Experience the platform in action! Our demo video showcases:
 
-#### Confidential Bidding
+- Patent registration with encrypted terms
+- Confidential license requests and approvals
+- Sealed-bid auction participation
+- Private royalty payment processing
 
-```solidity
-function submitConfidentialBid(
-    uint256 patentId,
-    uint64 bidAmount
-) external
-```
+**Watch the Demo**: [View demonstration video](./ConfidentialPatentLicense.mp4)
 
-#### Royalty Payment
+## 🚀 Live Application
 
-```solidity
-function payRoyalties(
-    uint256 licenseId,
-    uint64 reportedRevenue,
-    uint256 reportingPeriod
-) external payable
-```
+Access the platform at: **[https://confidential-patent-license.vercel.app/](https://confidential-patent-license.vercel.app/)**
 
-## FHEVM SDK Integration
+## 🔗 Resources
 
-This example uses the FHEVM SDK for all encryption operations:
+- **GitHub Repository**: [https://github.com/AndyCassin/ConfidentialPatentLicense](https://github.com/AndyCassin/ConfidentialPatentLicense)
+- **Smart Contract**: [View on Sepolia Etherscan](https://sepolia.etherscan.io/address/0x6Cabd68b533F593D268344cB1281E50699001E0E)
+- **Zama Documentation**: [https://docs.zama.ai](https://docs.zama.ai)
 
-```javascript
-import { createFhevmInstance } from '@fhevm/sdk';
+## 💡 Use Cases
 
-// Initialize FHEVM
-const provider = new ethers.BrowserProvider(window.ethereum);
-const fhevm = await createFhevmInstance({ provider });
+### Technology Transfer Offices
 
-// Get contract with SDK
-const contract = await fhevm.getConnectedContract(contractAddress, contractABI);
+Universities and research institutions can license patents while protecting sensitive pricing strategies and negotiation terms.
 
-// The SDK handles encryption automatically
-await contract.registerPatent(
-    royaltyRate,    // Encrypted internally
-    minLicenseFee,  // Encrypted internally
-    // ... other parameters
-);
-```
+### Pharmaceutical Companies
 
-## Usage Workflow
+Enable confidential licensing of drug patents with encrypted revenue-sharing agreements and protected clinical data.
 
-### 1. Patent Owner Workflow
+### Manufacturing Innovations
 
-1. **Connect Wallet** - Connect MetaMask to Sepolia
-2. **Register Patent** - Fill in patent details and choose confidentiality settings
-3. **Start Bidding** (Optional) - Initiate confidential bidding for exclusive licenses
-4. **Review Requests** - Check license requests in the "Manage" tab
-5. **Approve Licenses** - Accept license proposals
-6. **Verify Royalties** - Review royalty payments with encrypted revenue data
+License manufacturing processes with private royalty structures and territory-specific terms.
 
-### 2. Licensee Workflow
+### Software Patents
 
-1. **Connect Wallet** - Connect MetaMask to Sepolia
-2. **Browse Patents** - View available patents in the "View All" tab
-3. **Request License** - Submit a license request with proposed terms
-4. **Submit Bid** (Optional) - Place confidential bid for exclusive license
-5. **Pay Royalties** - Submit royalty payments with encrypted revenue reporting
+Manage software patent portfolios with confidential per-user or per-deployment licensing models.
 
-### 3. Confidential Bidding Flow
+## 🔒 Privacy Guarantees
 
-1. Patent owner starts bidding with duration
-2. Bidders submit encrypted bid amounts
-3. After bidding period ends, patent owner finalizes
-4. Highest bidder automatically receives exclusive license
+- **On-Chain Privacy**: All sensitive data encrypted using FHE
+- **Competitive Bidding**: Sealed bids remain confidential until auction completion
+- **Revenue Protection**: Sales figures never exposed publicly
+- **Business Intelligence**: Strategic licensing terms kept private
 
-## Encryption Examples
+## 🛡️ Security Features
 
-### Encrypting Patent Terms
+- **Immutable Records**: Blockchain-verified patent registrations
+- **Access Control**: Granular FHE permissions for authorized parties
+- **Audit Trail**: Complete transaction history with privacy preservation
+- **Verified Payments**: Cryptographic proof of royalty compliance
 
-```javascript
-// Royalty rate encrypted on-chain
-const royaltyRate = 500; // 5% in basis points
-await contract.registerPatent(
-    royaltyRate,  // Encrypted via FHE
-    minLicenseFee,
-    exclusivityPeriod,
-    // ...
-);
-```
+## 🌐 Supported Operations
 
-### Confidential Bidding
+### Patent Management
+- Register new patents with encrypted terms
+- Update patent status (Active/Suspended/Expired)
+- Launch confidential bidding periods
+- View patent portfolio analytics
 
-```javascript
-// Bid amount encrypted, hidden from others
-const bidAmount = ethers.parseEther("10.0");
-await contract.submitConfidentialBid(patentId, bidAmount);
-// Other bidders cannot see your bid amount
-```
+### License Operations
+- Request standard or exclusive licenses
+- Submit confidential bid proposals
+- Approve or reject license requests
+- Manage active license agreements
 
-### Private Revenue Reporting
+### Royalty System
+- Submit encrypted revenue reports
+- Process confidential royalty payments
+- Request async verification of payments
+- Track payment history privately
 
-```javascript
-// Revenue reported confidentially
-const reportedRevenue = ethers.parseEther("100.0");
-await contract.payRoyalties(
-    licenseId,
-    reportedRevenue,  // Encrypted
-    reportingPeriod,
-    { value: royaltyAmount }
-);
-```
+## 🎨 User Interface
 
-## Security Features
+Modern, intuitive interface featuring:
 
-- **FHE Encryption** - All sensitive data encrypted on-chain
-- **Access Control** - Patent owners and licensees have restricted access
-- **EIP-712 Signatures** - Secure decryption with signed messages
-- **Confidential Bidding** - Bid amounts hidden until finalization
-- **Revenue Privacy** - Royalty calculations on encrypted data
+- **Ocean Gradient Theme**: Calming blue-to-purple color scheme
+- **Animated Particles**: Dynamic background effects
+- **Real-time Stats**: Live dashboard with patent and license metrics
+- **Multi-tab Navigation**: Organized workflow for different operations
+- **Wallet Integration**: Seamless MetaMask connectivity
 
-## Testing
+## 🔬 Technology Stack
 
-The project includes comprehensive tests:
+- **Blockchain**: Ethereum (Sepolia Testnet)
+- **FHE Framework**: Zama fhevm
+- **Smart Contracts**: Solidity ^0.8.24
+- **Frontend**: Vanilla JavaScript with ethers.js
+- **Styling**: Modern CSS with gradients and animations
 
-```bash
-npm test
-```
+## 📊 Platform Statistics
 
-Test coverage includes:
-- Patent registration with encryption
-- License request and approval flow
-- Confidential bidding mechanics
-- Royalty payment verification
-- Access control and permissions
+Track real-time metrics:
+- Total patents registered
+- Active licenses issued
+- Personal patent portfolio
+- Your license agreements
 
-## Deployment
+## 🤝 Contributing
 
-### Sepolia Testnet
+This is a demonstration project showcasing FHE technology in intellectual property management. The platform demonstrates the potential for privacy-preserving patent licensing systems.
 
-```bash
-npm run deploy
-```
+## ⚠️ Disclaimer
 
-### Verify on Etherscan
+This platform is deployed on Sepolia testnet for demonstration purposes. Do not use for production patent licensing without proper legal consultation and mainnet deployment.
 
-```bash
-npm run verify
-```
+## 📧 Contact
 
-## Configuration
+For questions or collaboration opportunities, visit our GitHub repository:
+[https://github.com/AndyCassin/ConfidentialPatentLicense](https://github.com/AndyCassin/ConfidentialPatentLicense)
 
-### Hardhat Config
+---
 
-The `hardhat.config.js` is configured for:
-- Sepolia testnet deployment
-- Zama FHEVM integration
-- Gas optimization
-- Contract verification
-
-### Network Details
-
-- **Network**: Sepolia
-- **Chain ID**: 11155111
-- **FHEVM Gateway**: Zama Gateway for Sepolia
-
-## Troubleshooting
-
-### MetaMask Connection Issues
-
-Ensure you're on Sepolia testnet:
-- Network Name: Sepolia
-- RPC URL: https://eth-sepolia.g.alchemy.com/v2/...
-- Chain ID: 11155111
-
-### Contract Interaction Errors
-
-1. Check contract address in `index.html`
-2. Ensure wallet has sufficient Sepolia ETH
-3. Verify MetaMask is connected
-
-### Encryption Errors
-
-The FHEVM SDK handles encryption automatically. If you encounter issues:
-1. Check browser console for detailed errors
-2. Ensure FHEVM instance is initialized
-3. Verify contract is deployed correctly
-
-## Learn More
-
-- [FHEVM SDK Documentation](../../packages/fhevm-sdk/README.md)
-- [Zama FHEVM Docs](https://docs.zama.ai/fhevm)
-- [Hardhat Documentation](https://hardhat.org/docs)
-
-## License
-
-MIT
-
-## Support
-
-For issues or questions:
-- Check GitHub Issues
-- Review FHEVM SDK documentation
-- Consult Zama documentation
+**Built with FHE Technology | Powered by Zama | Secured by Blockchain**

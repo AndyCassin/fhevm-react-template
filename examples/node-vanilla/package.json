@@ -1,0 +1,28 @@
+{
+  "name": "node-vanilla-fhevm-example",
+  "version": "1.0.0",
+  "description": "Pure Node.js example using FHEVM SDK",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "encrypt": "node src/examples/encrypt.js",
+    "decrypt": "node src/examples/decrypt.js",
+    "contract": "node src/examples/contract.js"
+  },
+  "keywords": [
+    "fhevm",
+    "fhe",
+    "encryption",
+    "blockchain",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fhevm/sdk": "workspace:*",
+    "ethers": "^6.9.0",
+    "dotenv": "^16.3.1"
+  }
+}

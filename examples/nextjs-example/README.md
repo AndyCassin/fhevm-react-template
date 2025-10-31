@@ -1,185 +1,297 @@
 # Next.js FHEVM SDK Example
 
-This example demonstrates how to integrate the FHEVM SDK with Next.js 14 using the App Router.
+A comprehensive Next.js 14 application demonstrating the FHEVM SDK integration with App Router, showcasing Fully Homomorphic Encryption capabilities.
 
 ## Features
 
-- **Next.js 14 App Router** - Modern Next.js architecture
-- **FHEVM SDK Integration** - Full SDK usage with React hooks
-- **Wallet Connection** - MetaMask integration
-- **Encrypted Forms** - Submit confidential data to smart contracts
-- **TypeScript** - Fully typed implementation
-- **Tailwind CSS** - Modern styling
+This example demonstrates:
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ or 20+
-- MetaMask browser extension
-- Ethereum Sepolia testnet access
-
-### Installation
-
-From the root directory:
-
-```bash
-npm install
-```
-
-Or from this directory:
-
-```bash
-cd examples/nextjs-example
-npm install
-```
-
-### Development
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+- **FHE Encryption/Decryption** - Client-side encryption using FHEVM SDK
+- **API Routes** - Server-side FHE operations with Next.js API routes
+- **React Hooks** - Custom hooks for FHE operations
+- **Interactive Demos** - Real-world examples (Banking, Medical Records)
+- **Component Library** - Reusable UI components for FHE operations
+- **TypeScript** - Full type safety throughout the application
 
 ## Project Structure
 
 ```
 nextjs-example/
 ├── app/
-│   ├── layout.tsx          # Root layout with providers
-│   ├── page.tsx            # Home page
-│   ├── providers.tsx       # FHEVM Provider setup
-│   └── components/
-│       ├── WalletConnect.tsx
-│       ├── EncryptedForm.tsx
-│       └── DecryptionDemo.tsx
-├── public/
-├── package.json
-└── README.md
+│   ├── api/                    # API Routes
+│   │   ├── fhe/               # FHE operations
+│   │   │   ├── route.ts       # Main FHE endpoint
+│   │   │   ├── encrypt/       # Encryption API
+│   │   │   ├── decrypt/       # Decryption API
+│   │   │   └── compute/       # Computation API
+│   │   └── keys/              # Key management API
+│   ├── layout.tsx             # Root layout
+│   ├── page.tsx               # Home page
+│   ├── providers.tsx          # FHE provider setup
+│   └── globals.css            # Global styles
+├── components/
+│   ├── ui/                    # UI Components
+│   │   ├── Button.tsx         # Reusable button
+│   │   ├── Input.tsx          # Form input
+│   │   └── Card.tsx           # Card container
+│   ├── fhe/                   # FHE Components
+│   │   ├── EncryptionDemo.tsx # Encryption demonstration
+│   │   ├── ComputationDemo.tsx# Homomorphic computation
+│   │   └── KeyManager.tsx     # Key management UI
+│   └── examples/              # Use Case Examples
+│       ├── BankingExample.tsx # Confidential banking
+│       └── MedicalExample.tsx # Medical records
+├── hooks/                     # Custom Hooks
+│   ├── useFHE.ts             # Complete FHE operations
+│   ├── useEncryption.ts      # Enhanced encryption
+│   └── useComputation.ts     # Homomorphic computation
+├── lib/                       # Utilities
+│   ├── fhe/                  # FHE utilities
+│   │   ├── client.ts         # Client-side FHE
+│   │   ├── server.ts         # Server-side FHE
+│   │   ├── keys.ts           # Key management
+│   │   └── types.ts          # FHE type definitions
+│   └── utils/                # General utilities
+│       ├── security.ts       # Security functions
+│       └── validation.ts     # Input validation
+└── types/                    # TypeScript types
+    ├── fhe.ts               # FHE types
+    └── api.ts               # API types
 ```
 
-## Usage
+## Getting Started
 
-### 1. Connect Wallet
+### Prerequisites
 
-Click the "Connect Wallet" button to connect your MetaMask wallet.
+- Node.js 18+ or 20+
+- npm or yarn
+- MetaMask or compatible Web3 wallet
 
-### 2. Encrypt Data
+### Installation
 
-Use the form to encrypt confidential data:
+1. Install dependencies from the root directory:
+
+```bash
+cd ../..
+npm install
+```
+
+2. Set up environment variables:
+
+Create a `.env.local` file in the nextjs-example directory:
+
+```env
+NEXT_PUBLIC_RPC_URL=https://devnet.zama.ai
+NEXT_PUBLIC_CHAIN_ID=9000
+```
+
+3. Run the development server:
+
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Usage Examples
+
+### Basic Encryption
 
 ```tsx
 import { useEncryptedInput } from '@fhevm/sdk/react';
 
-function EncryptedForm() {
+function MyComponent() {
   const { encrypt, isEncrypting } = useEncryptedInput();
 
-  const handleSubmit = async (value: number) => {
-    const encrypted = await encrypt(value, 'uint32');
-    // Use encrypted.data and encrypted.handles with your contract
+  const handleEncrypt = async () => {
+    const encrypted = await encrypt(42, 'uint32');
+    console.log('Encrypted:', encrypted);
   };
 
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      handleSubmit(42);
-    }}>
-      <button type="submit" disabled={isEncrypting}>
-        {isEncrypting ? 'Encrypting...' : 'Submit'}
-      </button>
-    </form>
+    <button onClick={handleEncrypt} disabled={isEncrypting}>
+      Encrypt
+    </button>
   );
 }
 ```
 
-### 3. Interact with Contracts
+### Using Custom Hooks
 
 ```tsx
-import { useFhevmContract } from '@fhevm/sdk/react';
+import { useFHE } from '../hooks/useFHE';
 
-function ContractInteraction() {
-  const contract = useFhevmContract({
-    address: '0x...',
-    abi: myABI,
-    withSigner: true
-  });
+function MyComponent() {
+  const { encrypt, isReady, client } = useFHE();
 
-  const submitData = async (encrypted: any) => {
-    const tx = await contract.submitConfidentialData(
-      encrypted.data,
-      encrypted.handles
-    );
-    await tx.wait();
+  const handleOperation = async () => {
+    if (!isReady) return;
+
+    const encrypted = await encrypt(100, 'uint32');
+    // Use encrypted data with smart contracts
   };
 
-  return <button onClick={() => submitData(...)}>Submit to Contract</button>;
+  return <button onClick={handleOperation}>Encrypt & Submit</button>;
 }
 ```
 
-### 4. Decrypt Results
+### Server-Side API Usage
 
 ```tsx
-import { useDecrypt } from '@fhevm/sdk/react';
+// Call encryption API
+const response = await fetch('/api/fhe/encrypt', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    value: 42,
+    type: 'uint32',
+  }),
+});
 
-function DecryptionDemo() {
-  const { decrypt, isDecrypting, result } = useDecrypt();
-
-  const handleDecrypt = async () => {
-    await decrypt(contractAddress, encryptedHandle);
-  };
-
-  return (
-    <div>
-      <button onClick={handleDecrypt} disabled={isDecrypting}>
-        {isDecrypting ? 'Decrypting...' : 'Decrypt'}
-      </button>
-      {result && <p>Result: {result}</p>}
-    </div>
-  );
-}
+const { data } = await response.json();
+console.log('Encrypted data:', data.encryptedData);
 ```
 
-## Configuration
+## API Routes
 
-### Environment Variables
+### `/api/fhe` - General FHE Operations
 
-Create a `.env.local` file:
+- `GET` - Get API information
+- `POST` - Validate instance and get public key
 
-```env
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
-NEXT_PUBLIC_CHAIN_ID=11155111
-NEXT_PUBLIC_GATEWAY_URL=https://gateway.sepolia.zama.ai
+### `/api/fhe/encrypt` - Encryption
+
+- `POST` - Encrypt data server-side
+  - Body: `{ value: number, type: string }`
+  - Returns: Encrypted data and handles
+
+### `/api/fhe/decrypt` - Decryption
+
+- `POST` - Decrypt data (public decryption only)
+  - Body: `{ contractAddress: string, handle: string }`
+  - Returns: Decrypted value
+
+### `/api/fhe/compute` - Computation
+
+- `POST` - Perform homomorphic computation
+  - Body: `{ operation: string, contractAddress: string, abi: any[], method: string, params?: any[] }`
+  - Returns: Computation result
+
+### `/api/keys` - Key Management
+
+- `GET` - Get public key information
+- `POST` - Refresh or validate keys
+  - Body: `{ action: 'refresh' | 'validate' }`
+
+## Components
+
+### UI Components
+
+- **Button** - Styled button with loading state
+- **Input** - Form input with label and error handling
+- **Card** - Container component with header/footer
+
+### FHE Components
+
+- **EncryptionDemo** - Interactive encryption demonstration
+- **ComputationDemo** - Homomorphic computation examples
+- **KeyManager** - FHE key management interface
+
+### Example Components
+
+- **BankingExample** - Confidential banking transactions
+- **MedicalExample** - Private medical records management
+
+## Custom Hooks
+
+### `useFHE()`
+
+Complete FHE operations hook:
+
+```tsx
+const { encrypt, getInstance, getContract, isReady } = useFHE();
 ```
 
-### Tailwind Configuration
+### `useEncryption()`
 
-The project uses Tailwind CSS for styling. Customize `tailwind.config.js` as needed.
+Enhanced encryption with type-specific methods:
 
-## Deployment
-
-### Vercel (Recommended)
-
-```bash
-npm run build
-vercel deploy --prod
+```tsx
+const { encryptUint32, encryptBool, lastResult, history } = useEncryption();
 ```
 
-### Other Platforms
+### `useComputation()`
+
+Homomorphic computation operations:
+
+```tsx
+const { compute, add, multiply, compare } = useComputation({
+  contractAddress: '0x...',
+  abi: contractABI,
+});
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_RPC_URL` | RPC endpoint for FHEVM network | `https://devnet.zama.ai` |
+| `NEXT_PUBLIC_CHAIN_ID` | Chain ID for the network | `9000` |
+| `NEXT_PUBLIC_GATEWAY_URL` | Gateway URL (optional) | Auto-detected |
+| `NEXT_PUBLIC_ACL_ADDRESS` | ACL contract address (optional) | Auto-detected |
+
+## Building for Production
 
 ```bash
 npm run build
 npm start
 ```
 
-Then deploy the `.next` folder to your hosting platform.
+## Deployment
+
+### Vercel (Recommended)
+
+```bash
+vercel deploy
+```
+
+### Netlify
+
+```bash
+npm run build
+netlify deploy --prod
+```
+
+### Docker
+
+```bash
+docker build -t nextjs-fhevm .
+docker run -p 3000:3000 nextjs-fhevm
+```
+
+## Testing
+
+```bash
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+```
 
 ## Learn More
 
 - [FHEVM SDK Documentation](../../packages/fhevm-sdk/README.md)
 - [Next.js Documentation](https://nextjs.org/docs)
-- [Zama FHEVM Docs](https://docs.zama.ai/fhevm)
+- [Zama FHEVM](https://docs.zama.ai/fhevm)
+
+## Support
+
+For issues and questions:
+- Check the [FAQ](../../FAQ.md)
+- Review [examples](../../examples/)
+- Open an issue on GitHub
 
 ## License
 
-MIT
+MIT License - see [LICENSE](../../LICENSE) for details
